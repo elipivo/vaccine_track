@@ -74,7 +74,6 @@ while(True):
     d_next = d + timedelta(days=1)
     d_next = d_next.replace(hour = 18, minute = 0, second=0)
     sleep_secs = (d_next-d).total_seconds()
-    print(sleep_secs)
 
     # wait until update time
     sleep(sleep_secs)
