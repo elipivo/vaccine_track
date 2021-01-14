@@ -9,41 +9,10 @@ import pandas as pd
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-def get_data():
-
-    browser = Chrome()
-    browser.implicitly_wait(20)
-
-    URL = 'https://covid.cdc.gov/covid-data-tracker/?CDC_AA_refVal=https%3A%2F%2Fwww.cdc.gov%2Fcoronavirus%2F2019-ncov%2Fcases-updates%2Fcases-in-us.html'
-    browser.get(URL)
-
-    vaccine_button = browser.find_element(By.ID, "prntVaccinations")
-    vaccine_button.click()
-
-    vaccine_data_section = browser.find_element(By.ID,"vaccinations-banner-wrapper")
-
-    vaccine_data_kind = vaccine_data_section.find_elements(By.CLASS_NAME,"card-category")
-    vaccine_data_kind = [element.text for element in vaccine_data_kind]
-
-    vaccine_data = vaccine_data_section.find_elements(By.CLASS_NAME,"card-number")
-    vaccine_data = [element.text for element in vaccine_data]
-    vaccine_data = [num.replace(',','') for num in vaccine_data]
-    vaccine_data = list(map(int,vaccine_data))
-
-    vaccine_data_date = vaccine_data_section.find_elements(By.CLASS_NAME,"card-updated")
-    vaccine_data_date = [element.text for element in vaccine_data_date]
-    vaccine_data_date = vaccine_data_date[0]
-    vaccine_data_date = datetime.strptime(vaccine_data_date, 'CDC | Updated: %b %d %Y As of 9:00am ET')
-    vaccine_data_date = vaccine_data_date.date()
-
-    browser.close()
-
-    data_df = pd.DataFrame({vaccine_data_kind[i]: [vaccine_data[i]] for i in range(len(vaccine_data))})
-
-    data_df.insert(0,"Date",[vaccine_data_date])
-
-    return data_df
+from get_data import get_data
 
 # Record today's data when program begins, then record at 9:30 AM every subsequent day
 d = datetime.now()
