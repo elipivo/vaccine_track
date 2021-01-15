@@ -14,7 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from get_data import get_data
 
-# Record today's data when program begins, then record at 9:30 AM every subsequent day
+# Record today's data when program begins, then record at 6:00 PM every day
 d = datetime.now()
 
 while(True):
@@ -40,9 +40,11 @@ while(True):
 
     # calculate sleep time
     d = datetime.now()
-    d_next = d + timedelta(days=1)
-    d_next = d_next.replace(hour = 18, minute = 0, second=0)
+    d_next = d.replace(hour = 18, minute = 0, second=0)
     sleep_secs = (d_next-d).total_seconds()
+    if (sleep_secs < 0):
+        d_next = d_next+timedelta(days=1)
+        sleep_secs = (d_next-d).total_seconds()
 
     # wait until update time
     sleep(sleep_secs)

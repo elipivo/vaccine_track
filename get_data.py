@@ -37,7 +37,7 @@ def get_data():
     vaccine_data_date = browser.find_elements(By.CLASS_NAME,"card-updated")
     vaccine_data_date = [element.text for element in vaccine_data_date]
     vaccine_data_date = vaccine_data_date[0]
-    vaccine_data_date = datetime.strptime(vaccine_data_date, 'CDC | Updated: %b %d %Y As of 9:00am ET')
+    vaccine_data_date = datetime.strptime(vaccine_data_date, 'CDC | Updated: %b %d %Y As of 6:00am ET')
     vaccine_data_date = vaccine_data_date.date()
 
     browser.close()
