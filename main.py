@@ -12,7 +12,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from twilio.rest import Client
+
 from get_data import get_data
+
+client = Client("ACcfe044fe0cddbd2761daddecbff6e104", "1582dbd8555d0103e35d2b765723b6d1")
 
 # Record today's data when program begins, then record at 6:00 PM every day
 d = datetime.now()
@@ -32,11 +36,15 @@ while(True):
             excel_data_df.to_excel(writer,sheet_name='Data',index=False)
             writer.save()
             print(f"{d}: SUCCESS [new data]")
+            client.messages.create(to="+15209065088",from_="+13133951644",body=f"{d}: SUCCESS [new data]")
         else:
             print(f"{d}: SUCCESS [no new data]")
+            client.messages.create(to="+15209065088",from_="+13133951644",body=f"{d}: SUCCESS [no new data]")
 
     except:
         print(f"{d}: ERROR")
+        client.messages.create(to="+15209065088",from_="+13133951644",body=f"{d}: ERROR")
+
 
     # calculate sleep time
     d = datetime.now()
