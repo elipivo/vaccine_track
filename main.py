@@ -13,10 +13,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from twilio.rest import Client
+import os
 
 from get_data import get_data
 
-client = Client("ACcfe044fe0cddbd2761daddecbff6e104", "1582dbd8555d0103e35d2b765723b6d1")
+account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = os.environ['TWILIO_AUTH_TOKEN']
+client = Client(account_sid, auth_token)
 
 # Record today's data when program begins, then record at 6:00 PM every day
 d = datetime.now()
